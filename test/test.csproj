@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="xunit" Version="2.4.1"/>
+    <PackageReference Include="xunit.runner.console" Version="2.4.1"/>
+    <PackageReference Include="Moq" Version="4.10.1"/>
+    <PackageReference Include="xunit.console" Version="2.4.1"/>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.0.1"/>
+    <!-- <PackageReference Include="xunit.runner.msbuild" Version="2.4.1"/> -->
+     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.1"/>
+    <PackageReference Include="xunit.runners" Version="2.0.0"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PollyFunction\PollyFunction.csproj" />
+  </ItemGroup>
+
+</Project>

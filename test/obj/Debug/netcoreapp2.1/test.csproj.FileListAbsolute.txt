@@ -1,0 +1,17 @@
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/bin/Debug/netcoreapp2.1/test.deps.json
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/bin/Debug/netcoreapp2.1/test.runtimeconfig.json
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/bin/Debug/netcoreapp2.1/test.runtimeconfig.dev.json
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/bin/Debug/netcoreapp2.1/test.dll
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/bin/Debug/netcoreapp2.1/test.pdb
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/bin/Debug/netcoreapp2.1/PollyFunction.dll
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/bin/Debug/netcoreapp2.1/PollyFunction.pdb
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/obj/Debug/netcoreapp2.1/test.csprojAssemblyReference.cache
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/obj/Debug/netcoreapp2.1/test.csproj.CoreCompileInputs.cache
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/obj/Debug/netcoreapp2.1/test.AssemblyInfoInputs.cache
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/obj/Debug/netcoreapp2.1/test.AssemblyInfo.cs
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/obj/Debug/netcoreapp2.1/test.csproj.CopyComplete
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/obj/Debug/netcoreapp2.1/test.dll
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/obj/Debug/netcoreapp2.1/test.pdb
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/bin/Debug/netcoreapp2.1/xunit.runner.visualstudio.dotnetcore.testadapter.dll
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/bin/Debug/netcoreapp2.1/xunit.runner.reporters.netcoreapp10.dll
+/Users/alexblack/dev/lambda/April2019-PollyPodcast/test/bin/Debug/netcoreapp2.1/xunit.runner.utility.netcoreapp10.dll
