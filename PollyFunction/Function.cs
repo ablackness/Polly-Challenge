@@ -1,75 +1,71 @@
-using System;
-using System.IO;
-using System.Threading.Tasks;
-using Amazon.Lambda.Core;
-using LambdaSharp;
 using Amazon.Lambda.APIGatewayEvents;
+using Amazon.Lambda.Core;
 using Amazon.Polly;
-using Amazon.Polly.Model;
+using Amazon.S3;
+using LambdaSharp;
+using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.Json.JsonSerializer))]
 
 namespace My.MySampleModule.PollyFunction {
 
-    public class FunctionRequest {
+	public class FunctionRequest {
+		//--- Properties ---
 
-        //--- Properties ---
+		// TODO: add request fields
+	}
 
-        // TODO: add request fields
-    }
+	public class FunctionResponse {
+		//--- Properties ---
 
-    public class FunctionResponse {
+		// TODO: add response fields
+	}
 
-        //--- Properties ---
+	public class Function : ALambdaApiGatewayFunction {
 
-        // TODO: add response fields
-    }
+		//--- Methods ---
+		public override async Task InitializeAsync(LambdaConfig config) { }
 
-    public class Function : ALambdaApiGatewayFunction {
+		public override async Task<APIGatewayProxyResponse> HandleRequestAsync(APIGatewayProxyRequest request, ILambdaContext context) {
+			LogInfo($"Body = {request.Body}");
+			LogDictionary("Headers", request.Headers);
+			LogInfo($"HttpMethod = {request.HttpMethod}");
+			LogInfo($"IsBase64Encoded = {request.IsBase64Encoded}");
+			LogInfo($"Path = {request.Path}");
+			LogDictionary("PathParameters", request.PathParameters);
+			LogDictionary("QueryStringParameters", request.QueryStringParameters);
+			LogInfo($"RequestContext.ResourcePath = {request.RequestContext.ResourcePath}");
+			LogInfo($"RequestContext.Stage = {request.RequestContext.Stage}");
+			LogInfo($"Resource = {request.Resource}");
+			LogDictionary("StageVariables", request.StageVariables);
+			var response  = new APIGatewayProxyResponse {
+				Body = "Ok",
+				Headers = new Dictionary<string, string> {
+					["Content-Type"] = "text/plain"
+				},
+				StatusCode = 200
+			};
+			if (request.HttpMethod == "POST") {
+				try {
+					await (new Logic(new AmazonPollyClient(), new AmazonS3Client(), Environment.GetEnvironmentVariable("bucket"))).ProcessRequest("test", "title");
+				} catch (Exception ex) {
+					response.Body = ex.GetBaseException().ToString();
+					response.StatusCode = 500;
+					return response;
+				}
+			}
+			return response;
+		}
 
-        //--- Fields ---
-        private AmazonPollyClient _pollyClient;
-        //--- Methods ---
-        public override async Task InitializeAsync(LambdaConfig config) { }
-
-        public override async Task<APIGatewayProxyResponse> HandleRequestAsync(APIGatewayProxyRequest request, ILambdaContext context) {
-
-            // TODO: add business logic
-            LogInfo($"Body = {request.Body}");
-            LogDictionary("Headers", request.Headers);
-            LogInfo($"HttpMethod = {request.HttpMethod}");
-            LogInfo($"IsBase64Encoded = {request.IsBase64Encoded}");
-            LogInfo($"Path = {request.Path}");
-            LogDictionary("PathParameters", request.PathParameters);
-            LogDictionary("QueryStringParameters", request.QueryStringParameters);
-            LogInfo($"RequestContext.ResourcePath = {request.RequestContext.ResourcePath}");
-            LogInfo($"RequestContext.Stage = {request.RequestContext.Stage}");
-            LogInfo($"Resource = {request.Resource}");
-            LogDictionary("StageVariables", request.StageVariables);
-
-            if(request.HttpMethod == "POST") {
-                // intitiate Polly
-                LogInfo("POSTPOSTPOSTPOST");
-            }
-
-            return new APIGatewayProxyResponse {
-                Body = "Ok",
-                Headers = new Dictionary<string, string> {
-                    ["Content-Type"] = "text/plain"
-                },
-                StatusCode = 200
-            };
-
-            void LogDictionary(string prefix, IDictionary<string, string> keyValues) {
-                if(keyValues != null) {
-                    foreach(var keyValue in keyValues) {
-                        LogInfo($"{prefix}.{keyValue.Key} = {keyValue.Value}");
-                    }
-                }
-            }
-        }
-    }
-
+		void LogDictionary(string prefix, IDictionary<string, string> keyValues) {
+			if (keyValues != null) {
+				foreach (var keyValue in keyValues) {
+					LogInfo($"{prefix}.{keyValue.Key} = {keyValue.Value}");
+				}
+			}
+		}
+	}
 }

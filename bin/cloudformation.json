@@ -1,6 +1,6 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
-  "Description": "Module description (v1.0-DEV)",
+  "Description": "Send text to Polly to save an audio file to S3 (v1.0-DEV)",
   "Parameters": {
     "Secrets": {
       "Type": "String",
@@ -64,7 +64,7 @@
     "DeploymentChecksum": {
       "Type": "String",
       "Description": "Deployment Checksum",
-      "Default": "9D822573DCC19A873BB663C978FDE405"
+      "Default": "4801CD1965E4EBB63B4EF9F10CCD5C6C"
     }
   },
   "Resources": {
@@ -75,7 +75,7 @@
           "S3Bucket": {
             "Ref": "DeploymentBucketName"
           },
-          "S3Key": "My/Modules/MySampleModule/Assets/function_PollyFunction_CFEF5916F161CAF79B8A269D7ED2AF31.zip"
+          "S3Key": "LambdaSharpChallenge/Modules/PollyToS3Module/Assets/function_PollyFunction_6F95F702C1A8C1B08E10519901AEE8CB.zip"
         },
         "DeadLetterConfig": {
           "TargetArn": {
@@ -109,13 +109,13 @@
             ]
           }
         },
-        "Description": "Get text from API gateway endpoint and give it to Polly (v1.0-DEV)",
+        "Description": "Endpoints to send text to Polly to save to a S3 bucket (v1.0-DEV)",
         "Environment": {
           "Variables": {
             "MODULE_ID": {
               "Ref": "AWS::StackName"
             },
-            "MODULE_INFO": "My.MySampleModule:1.0-DEV",
+            "MODULE_INFO": "LambdaSharpChallenge.PollyToS3Module:1.0-DEV",
             "LAMBDA_NAME": "PollyFunction",
             "LAMBDA_RUNTIME": "dotnetcore2.1",
             "DEADLETTERQUEUE": {
@@ -393,7 +393,7 @@
           }
         },
         "ResourceType": "LambdaSharp::Registration::Module",
-        "Module": "My.MySampleModule:1.0-DEV",
+        "Module": "LambdaSharpChallenge.PollyToS3Module:1.0-DEV",
         "ModuleId": {
           "Ref": "AWS::StackName"
         }
@@ -558,55 +558,7 @@
         }
       }
     },
-    "ModuleRestApiArticlesResourceIdResource": {
-      "Type": "AWS::ApiGateway::Resource",
-      "Properties": {
-        "ParentId": {
-          "Ref": "ModuleRestApiArticlesResource"
-        },
-        "PathPart": "{id}",
-        "RestApiId": {
-          "Ref": "ModuleRestApi"
-        }
-      }
-    },
-    "ModuleRestApiArticlesResourceIdResourceGET": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "AuthorizationType": "NONE",
-        "HttpMethod": "GET",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PollyFunction.Arn}/invocations"
-          }
-        },
-        "ResourceId": {
-          "Ref": "ModuleRestApiArticlesResourceIdResource"
-        },
-        "RestApiId": {
-          "Ref": "ModuleRestApi"
-        }
-      }
-    },
-    "ModuleRestApiArticlesResourceIdResourceGETPermission": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "PollyFunction",
-            "Arn"
-          ]
-        },
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ModuleRestApi}/LATEST/GET/articles/{id}"
-        }
-      }
-    },
-    "ModuleRestApiArticlesResourceIdResourcePOST": {
+    "ModuleRestApiArticlesResourcePOST": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
         "AuthorizationType": "NONE",
@@ -619,14 +571,14 @@
           }
         },
         "ResourceId": {
-          "Ref": "ModuleRestApiArticlesResourceIdResource"
+          "Ref": "ModuleRestApiArticlesResource"
         },
         "RestApiId": {
           "Ref": "ModuleRestApi"
         }
       }
     },
-    "ModuleRestApiArticlesResourceIdResourcePOSTPermission": {
+    "ModuleRestApiArticlesResourcePOSTPermission": {
       "Type": "AWS::Lambda::Permission",
       "Properties": {
         "Action": "lambda:InvokeFunction",
@@ -638,7 +590,7 @@
         },
         "Principal": "apigateway.amazonaws.com",
         "SourceArn": {
-          "Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ModuleRestApi}/LATEST/POST/articles/{id}"
+          "Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ModuleRestApi}/LATEST/POST/articles"
         }
       }
     },
@@ -697,11 +649,11 @@
         }
       }
     },
-    "ModuleRestApiDeployment6FD4D24FB2E211CE9AB498E5CA3FE8B5": {
+    "ModuleRestApiDeployment61FA7D7E2A9B2B5E6DEDB0592A397603": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "Description": {
-          "Fn::Sub": "${AWS::StackName} API [6FD4D24FB2E211CE9AB498E5CA3FE8B5]"
+          "Fn::Sub": "${AWS::StackName} API [61FA7D7E2A9B2B5E6DEDB0592A397603]"
         },
         "RestApiId": {
           "Ref": "ModuleRestApi"
@@ -709,15 +661,14 @@
       },
       "DependsOn": [
         "ModuleRestApiArticlesResourceGET",
-        "ModuleRestApiArticlesResourceIdResourceGET",
-        "ModuleRestApiArticlesResourceIdResourcePOST"
+        "ModuleRestApiArticlesResourcePOST"
       ]
     },
     "ModuleRestApiStage": {
       "Type": "AWS::ApiGateway::Stage",
       "Properties": {
         "DeploymentId": {
-          "Ref": "ModuleRestApiDeployment6FD4D24FB2E211CE9AB498E5CA3FE8B5"
+          "Ref": "ModuleRestApiDeployment61FA7D7E2A9B2B5E6DEDB0592A397603"
         },
         "MethodSettings": [
           {
@@ -739,7 +690,7 @@
   },
   "Outputs": {
     "Module": {
-      "Value": "My.MySampleModule:1.0-DEV"
+      "Value": "LambdaSharpChallenge.PollyToS3Module:1.0-DEV"
     }
   },
   "Conditions": {
@@ -962,7 +913,7 @@
     },
     "LambdaSharp::Manifest": {
       "Version": "2018-12-31",
-      "Module": "My.MySampleModule:1.0-DEV",
+      "Module": "LambdaSharpChallenge.PollyToS3Module:1.0-DEV",
       "ParameterSections": [
         {
           "Title": "LambdaSharp Module Options",
@@ -1016,9 +967,13 @@
         }
       ],
       "RuntimeCheck": true,
-      "Hash": "9D822573DCC19A873BB663C978FDE405",
+      "Hash": "4801CD1965E4EBB63B4EF9F10CCD5C6C",
+      "Git": {
+        "Branch": "master",
+        "SHA": "6682725c9a0755b8671bea4d3017bf54bd69c21c"
+      },
       "Assets": [
-        "function_PollyFunction_CFEF5916F161CAF79B8A269D7ED2AF31.zip"
+        "function_PollyFunction_6F95F702C1A8C1B08E10519901AEE8CB.zip"
       ],
       "Dependencies": [
         {
@@ -1036,14 +991,11 @@
         "ModuleRestApiArticlesResource": "Module::RestApi::ArticlesResource",
         "ModuleRestApiArticlesResourceGET": "Module::RestApi::ArticlesResource::GET",
         "ModuleRestApiArticlesResourceGETPermission": "Module::RestApi::ArticlesResource::GET::Permission",
-        "ModuleRestApiArticlesResourceIdResource": "Module::RestApi::ArticlesResource::IdResource",
-        "ModuleRestApiArticlesResourceIdResourceGET": "Module::RestApi::ArticlesResource::IdResource::GET",
-        "ModuleRestApiArticlesResourceIdResourceGETPermission": "Module::RestApi::ArticlesResource::IdResource::GET::Permission",
-        "ModuleRestApiArticlesResourceIdResourcePOST": "Module::RestApi::ArticlesResource::IdResource::POST",
-        "ModuleRestApiArticlesResourceIdResourcePOSTPermission": "Module::RestApi::ArticlesResource::IdResource::POST::Permission",
+        "ModuleRestApiArticlesResourcePOST": "Module::RestApi::ArticlesResource::POST",
+        "ModuleRestApiArticlesResourcePOSTPermission": "Module::RestApi::ArticlesResource::POST::Permission",
         "ModuleRestApiRole": "Module::RestApi::Role",
         "ModuleRestApiAccount": "Module::RestApi::Account",
-        "ModuleRestApiDeployment6FD4D24FB2E211CE9AB498E5CA3FE8B5": "Module::RestApi::Deployment6FD4D24FB2E211CE9AB498E5CA3FE8B5",
+        "ModuleRestApiDeployment61FA7D7E2A9B2B5E6DEDB0592A397603": "Module::RestApi::Deployment61FA7D7E2A9B2B5E6DEDB0592A397603",
         "ModuleRestApiStage": "Module::RestApi::Stage"
       },
       "TypeNameMappings": {

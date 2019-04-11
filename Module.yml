@@ -1,20 +1,21 @@
 # The Module Name is used as prefix for all contained resources.
-Module: My.MySampleModule
+Module: LambdaSharpChallenge.PollyToS3Module
 
 # The Module Version is shown in the CloudFormation stack and Lambda function descriptions.
 Version: 1.0-DEV
 
 # The Module Description is shown in the AWS CloudFormation console with the version number.
-Description: Module description
+Description: Send text to Polly to save an audio file to S3
+
+Items:
 
 # The Items section defines values and resources for the module.
 Items:
   
   - Function: PollyFunction
-    Description: Get text from API gateway endpoint and give it to Polly
+    Description: Endpoints to send text to Polly to save to a S3 bucket
     Memory: 128
     Timeout: 30
     Sources:
       - Api: GET:/articles
-      - Api: GET:/articles/{id}
       - Api: POST:/articles
