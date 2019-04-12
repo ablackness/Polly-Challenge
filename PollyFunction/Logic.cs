@@ -65,6 +65,7 @@ namespace My.MySampleModule.PollyFunction {
 				|| pollyResponse.HttpStatusCode != (HttpStatusCode)200) {
 				throw new Exception("Text could not be converted to audio.");
 			}
+			pollyResponse.AudioStream.Position = 0;
 			var s3Response = await _provider.S3.PutObjectAsync(new PutObjectRequest {
 				BucketName = _provider.Bucket,
 				Key = title,
