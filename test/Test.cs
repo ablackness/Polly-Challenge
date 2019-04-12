@@ -40,7 +40,8 @@ namespace My.MySampleModule.PollyFunction.Test {
 			public MockLogic() {
 				PollyMock = new Mock<IAmazonPolly>();
 				S3Mock = new Mock<IAmazonS3>();
-				Logic = new Logic(PollyMock.Object, S3Mock.Object, "fake_bucket_name");
+				//ILogicDependencyProvider
+				//Logic = new Logic(PollyMock.Object, S3Mock.Object, "fake_bucket_name");
 			}
 
 			public static MockLogic Create() {

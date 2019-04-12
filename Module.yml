@@ -17,5 +17,5 @@ Items:
     Memory: 128
     Timeout: 30
     Sources:
-      - Api: GET:/articles
       - Api: POST:/articles
+        Invoke: Logic::AddItem

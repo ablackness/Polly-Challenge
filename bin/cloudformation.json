@@ -64,7 +64,7 @@
     "DeploymentChecksum": {
       "Type": "String",
       "Description": "Deployment Checksum",
-      "Default": "4CA549CD2F2328EB62A1A64915659698"
+      "Default": "EA391EE735F894013914D2862DF01C10"
     }
   },
   "Resources": {
@@ -75,7 +75,7 @@
           "S3Bucket": {
             "Ref": "DeploymentBucketName"
           },
-          "S3Key": "LambdaSharpChallenge/Modules/PollyToS3Module/Assets/function_PollyFunction_2EBDA0FFBB33269C00667BD466E20250.zip"
+          "S3Key": "LambdaSharpChallenge/Modules/PollyToS3Module/Assets/function_PollyFunction_69BA3BEB844008DA125345A20B7D1F52.zip"
         },
         "DeadLetterConfig": {
           "TargetArn": {
@@ -522,42 +522,6 @@
         }
       }
     },
-    "ModuleRestApiArticlesResourceGET": {
-      "Type": "AWS::ApiGateway::Method",
-      "Properties": {
-        "AuthorizationType": "NONE",
-        "HttpMethod": "GET",
-        "Integration": {
-          "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
-          "Uri": {
-            "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PollyFunction.Arn}/invocations"
-          }
-        },
-        "ResourceId": {
-          "Ref": "ModuleRestApiArticlesResource"
-        },
-        "RestApiId": {
-          "Ref": "ModuleRestApi"
-        }
-      }
-    },
-    "ModuleRestApiArticlesResourceGETPermission": {
-      "Type": "AWS::Lambda::Permission",
-      "Properties": {
-        "Action": "lambda:InvokeFunction",
-        "FunctionName": {
-          "Fn::GetAtt": [
-            "PollyFunction",
-            "Arn"
-          ]
-        },
-        "Principal": "apigateway.amazonaws.com",
-        "SourceArn": {
-          "Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ModuleRestApi}/LATEST/GET/articles"
-        }
-      }
-    },
     "ModuleRestApiArticlesResourcePOST": {
       "Type": "AWS::ApiGateway::Method",
       "Properties": {
@@ -565,16 +529,97 @@
         "HttpMethod": "POST",
         "Integration": {
           "IntegrationHttpMethod": "POST",
-          "Type": "AWS_PROXY",
+          "IntegrationResponses": [
+            {
+              "ResponseTemplates": {
+                "application/json": "#set($root = $input.path('$'))\n#set($context.responseOverride.status = $root.statusCode)\n#if($root.headers)\n#foreach($header in $root.headers.keySet())\n#set($context.responseOverride.header[$header] = $root.headers.get($header))\n#end\n#end\n#if($root.multiValueHeaders)\n#foreach($header in $root.multiValueHeaders.keySet())\n#set($context.responseOverride.header[$header] = $root.multiValueHeaders.get($header))\n#end\n#end\n$root.body"
+              },
+              "StatusCode": 200
+            }
+          ],
+          "PassthroughBehavior": "NEVER",
+          "RequestTemplates": {
+            "application/json": "#set($allParams = $input.params())\n#set($headers = $input.params().header)\n#set($queryStringParameters = $input.params().querystring)\n#set($pathParameters = $input.params().path)\n{\n\"resource\": \"$context.resourcePath\",\n\"path\": \"$context.path\",\n\"httpMethod\": \"$context.httpMethod\",\n\"headers\": {\n#foreach($key in $headers.keySet())\n\"$key\": \"$util.escapeJavaScript($headers.get($key))\"\n#if($foreach.hasNext),#end\n#end\n},\n#if($querystrings.size() > 0)\n\"queryStringParameters\": {\n#foreach($key in $queryStringParameters.keySet())\n\"$key\": \"$util.escapeJavaScript($queryStringParameters.get($key))\"\n#if($foreach.hasNext),#end\n#end\n},\n#else\n\"queryStringParameters\": null,\n#end\n#if($pathParameters.size() > 0)\n\"pathParameters\": {\n#foreach($key in $pathParameters.keySet())\n\"$key\": \"$util.escapeJavaScript($pathParameters.get($key))\"\n#if($foreach.hasNext),#end\n#end\n},\n#else\n\"pathParameters\": null,\n#end\n#if($stageVariables.size() > 0)\n\"stageVariables\": {\n#foreach($key in $stageVariables.keySet())\n\"$key\": \"$util.escapeJavaScript($stageVariables.get($key))\"\n#if($foreach.hasNext),#end\n#end\n},\n#else\n\"stageVariables\": null,\n#end\n\"requestContext\": {\n\"resourceId\": \"$context.resourceId\",\n\"resourcePath\": \"$context.resourcePath\",\n\"httpMethod\": \"$context.httpMethod\",\n\"extendedRequestId\": \"$context.extendedRequestId\",\n\"path\": \"$context.path\",\n\"accountId\": \"$context.accountId\",\n\"stage\": \"$context.stage\",\n\"domainPrefix\": \"$context.domainPrefix\",\n\"requestId\": \"$context.requestId\",\n\"identity\": {\n\"cognitoIdentityPoolId\":#if($context.identity.cognitoIdentityPoolId.isEmpty()) null#else \"$context.identity.cognitoIdentityPoolId\"#end,\n\"accountId\":#if($context.identity.accountId.isEmpty()) null#else \"$context.identity.accountId\"#end,\n\"cognitoIdentityId\":#if($context.identity.cognitoIdentityId.isEmpty()) null#else \"$context.identity.cognitoIdentityId\"#end,\n\"caller\":#if($context.identity.caller.isEmpty()) null#else \"$context.identity.caller\"#end,\n\"sourceIp\":#if($context.identity.sourceIp.isEmpty()) null#else \"$context.identity.sourceIp\"#end,\n\"accessKey\":#if($context.identity.accessKey.isEmpty()) null#else \"$context.identity.accessKey\"#end,\n\"cognitoAuthenticationType\":#if($context.identity.cognitoAuthenticationType.isEmpty()) null#else \"$context.identity.cognitoAuthenticationType\"#end,\n\"cognitoAuthenticationProvider\":#if($context.identity.cognitoAuthenticationProvider.isEmpty()) null#else \"$context.identity.cognitoAuthenticationProvider\"#end,\n\"userArn\":#if($context.identity.userArn.isEmpty()) null#else \"$context.identity.userArn\"#end,\n\"userAgent\":#if($context.identity.userAgent.isEmpty()) null#else \"$context.identity.userAgent\"#end,\n\"user\":#if($context.identity.user.isEmpty()) null#else \"$context.identity.user\"#end,\n\"apiKey\":#if($context.identity.apiKey.isEmpty()) null#else \"$context.identity.apiKey\"#end,\n\"apiKeyId\":#if($context.identity.apiKeyId.isEmpty()) null#else \"$context.identity.apiKeyId\"#end\n},\n\"domainName\": \"$context.domainName\",\n\"apiId\": \"$context.apiId\"\n},\n\"body\": \"$util.escapeJavaScript($input.body)\",\n\"isBase64Encoded\": false\n}"
+          },
+          "Type": "AWS",
           "Uri": {
             "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PollyFunction.Arn}/invocations"
           }
+        },
+        "MethodResponses": [
+          {
+            "ResponseModels": {
+              "application/json": {
+                "Ref": "ModuleRestApiArticlesResourcePOSTResponseModel"
+              }
+            },
+            "StatusCode": 200
+          }
+        ],
+        "OperationName": "AddItem",
+        "RequestModels": {
+          "application/json": {
+            "Ref": "ModuleRestApiArticlesResourcePOSTRequestModel"
+          }
+        },
+        "RequestValidatorId": {
+          "Ref": "ModuleRestApiRequestValidator"
         },
         "ResourceId": {
           "Ref": "ModuleRestApiArticlesResource"
         },
         "RestApiId": {
           "Ref": "ModuleRestApi"
+        }
+      }
+    },
+    "ModuleRestApiArticlesResourcePOSTRequestModel": {
+      "Type": "AWS::ApiGateway::Model",
+      "Properties": {
+        "ContentType": "application/json",
+        "Name": "AddItemRequest",
+        "RestApiId": {
+          "Ref": "ModuleRestApi"
+        },
+        "Schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "title": "AddItemRequest",
+          "type": "object",
+          "required": [
+            "Content",
+            "Title"
+          ],
+          "properties": {
+            "Content": {
+              "type": "string"
+            },
+            "Title": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "ModuleRestApiArticlesResourcePOSTResponseModel": {
+      "Type": "AWS::ApiGateway::Model",
+      "Properties": {
+        "ContentType": "application/json",
+        "Name": "AddItemResponse",
+        "RestApiId": {
+          "Ref": "ModuleRestApi"
+        },
+        "Schema": {
+          "$schema": "http://json-schema.org/draft-04/schema#",
+          "title": "AddItemResponse",
+          "type": "object",
+          "required": [
+            "Id"
+          ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -592,6 +637,16 @@
         "SourceArn": {
           "Fn::Sub": "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ModuleRestApi}/LATEST/POST/articles"
         }
+      }
+    },
+    "ModuleRestApiRequestValidator": {
+      "Type": "AWS::ApiGateway::RequestValidator",
+      "Properties": {
+        "RestApiId": {
+          "Ref": "ModuleRestApi"
+        },
+        "ValidateRequestBody": true,
+        "ValidateRequestParameters": true
       }
     },
     "ModuleRestApiRole": {
@@ -638,6 +693,15 @@
         ]
       }
     },
+    "ModuleRestApiLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": {
+          "Fn::Sub": "API-Gateway-Execution-Logs_${ModuleRestApi}/LATEST"
+        },
+        "RetentionInDays": 30
+      }
+    },
     "ModuleRestApiAccount": {
       "Type": "AWS::ApiGateway::Account",
       "Properties": {
@@ -647,28 +711,32 @@
             "Arn"
           ]
         }
-      }
+      },
+      "DependsOn": [
+        "ModuleRestApiLogGroup"
+      ]
     },
-    "ModuleRestApiDeployment61FA7D7E2A9B2B5E6DEDB0592A397603": {
+    "ModuleRestApiDeployment3E22C059DC24DB5FD05CDFB88DFC768C": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "Description": {
-          "Fn::Sub": "${AWS::StackName} API [61FA7D7E2A9B2B5E6DEDB0592A397603]"
+          "Fn::Sub": "${AWS::StackName} API [3E22C059DC24DB5FD05CDFB88DFC768C]"
         },
         "RestApiId": {
           "Ref": "ModuleRestApi"
         }
       },
       "DependsOn": [
-        "ModuleRestApiArticlesResourceGET",
-        "ModuleRestApiArticlesResourcePOST"
+        "ModuleRestApiArticlesResourcePOST",
+        "ModuleRestApiArticlesResourcePOSTRequestModel",
+        "ModuleRestApiArticlesResourcePOSTResponseModel"
       ]
     },
     "ModuleRestApiStage": {
       "Type": "AWS::ApiGateway::Stage",
       "Properties": {
         "DeploymentId": {
-          "Ref": "ModuleRestApiDeployment61FA7D7E2A9B2B5E6DEDB0592A397603"
+          "Ref": "ModuleRestApiDeployment3E22C059DC24DB5FD05CDFB88DFC768C"
         },
         "MethodSettings": [
           {
@@ -967,18 +1035,18 @@
         }
       ],
       "RuntimeCheck": true,
-      "Hash": "4CA549CD2F2328EB62A1A64915659698",
+      "Hash": "EA391EE735F894013914D2862DF01C10",
       "Git": {
         "Branch": "master",
-        "SHA": "488bde0c754c40cc85e074889cea407f697085f2"
+        "SHA": "5d7bcc72f72171e0e114825f97796ded6c8e9c4e"
       },
       "Assets": [
-        "function_PollyFunction_2EBDA0FFBB33269C00667BD466E20250.zip"
+        "function_PollyFunction_69BA3BEB844008DA125345A20B7D1F52.zip"
       ],
       "Dependencies": [
         {
           "ModuleFullName": "LambdaSharp.Core",
-          "MinVersion": "0.5"
+          "MinVersion": "0.6-RC1"
         }
       ],
       "ResourceNameMappings": {
@@ -989,13 +1057,15 @@
         "PollyFunctionLogGroupSubscription": "PollyFunction::LogGroupSubscription",
         "ModuleRestApi": "Module::RestApi",
         "ModuleRestApiArticlesResource": "Module::RestApi::ArticlesResource",
-        "ModuleRestApiArticlesResourceGET": "Module::RestApi::ArticlesResource::GET",
-        "ModuleRestApiArticlesResourceGETPermission": "Module::RestApi::ArticlesResource::GET::Permission",
         "ModuleRestApiArticlesResourcePOST": "Module::RestApi::ArticlesResource::POST",
+        "ModuleRestApiArticlesResourcePOSTRequestModel": "Module::RestApi::ArticlesResource::POST::RequestModel",
+        "ModuleRestApiArticlesResourcePOSTResponseModel": "Module::RestApi::ArticlesResource::POST::ResponseModel",
         "ModuleRestApiArticlesResourcePOSTPermission": "Module::RestApi::ArticlesResource::POST::Permission",
+        "ModuleRestApiRequestValidator": "Module::RestApi::RequestValidator",
         "ModuleRestApiRole": "Module::RestApi::Role",
+        "ModuleRestApiLogGroup": "Module::RestApi::LogGroup",
         "ModuleRestApiAccount": "Module::RestApi::Account",
-        "ModuleRestApiDeployment61FA7D7E2A9B2B5E6DEDB0592A397603": "Module::RestApi::Deployment61FA7D7E2A9B2B5E6DEDB0592A397603",
+        "ModuleRestApiDeployment3E22C059DC24DB5FD05CDFB88DFC768C": "Module::RestApi::Deployment3E22C059DC24DB5FD05CDFB88DFC768C",
         "ModuleRestApiStage": "Module::RestApi::Stage"
       },
       "TypeNameMappings": {
