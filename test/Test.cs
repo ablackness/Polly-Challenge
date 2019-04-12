@@ -19,21 +19,7 @@ namespace My.MySampleModule.PollyFunction.Test {
 			mock.PollyMock.Setup(x => x.SynthesizeSpeechAsync(It.IsAny<SynthesizeSpeechRequest>(), It.IsAny<CancellationToken>()))
 						.Returns(Task.FromResult(new SynthesizeSpeechResponse() { HttpStatusCode = (HttpStatusCode)200 }));
 
-			//act
-			await mock.Logic.ProcessRequest("foo", "bar");
-
-			//assert
-			mock.PollyMock.VerifyAll();
-		}
-
-		[Fact]
-		public async Task CanSaveAudioToS3() {
-			//arrange
-			var mock = MockLogic.Create();
-			mock.PollyMock.Setup(x => x.SynthesizeSpeechAsync(It.IsAny<SynthesizeSpeechRequest>(), It.IsAny<CancellationToken>()))
-						.Returns(Task.FromResult(new SynthesizeSpeechResponse() { HttpStatusCode = (HttpStatusCode)200 }));
 			mock.S3Mock.Setup(x => x.PutObjectAsync(It.IsAny<PutObjectRequest>(), It.IsAny<CancellationToken>()))
-
 			.ReturnsAsync(new PutObjectResponse() {
 				HttpStatusCode = (HttpStatusCode)200
 			});
@@ -42,9 +28,10 @@ namespace My.MySampleModule.PollyFunction.Test {
 			await mock.Logic.ProcessRequest("foo", "bar");
 
 			//assert
-			mock.S3Mock.VerifyAll();
+			mock.PollyMock.VerifyAll();
 		}
 
+		
 		internal class MockLogic {
 			public Mock<IAmazonPolly> PollyMock { get; }
 			public Mock<IAmazonS3> S3Mock { get; }

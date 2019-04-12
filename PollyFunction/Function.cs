@@ -52,7 +52,7 @@ namespace My.MySampleModule.PollyFunction {
 				try {
 					await (new Logic(new AmazonPollyClient(), new AmazonS3Client(), Environment.GetEnvironmentVariable("bucket"))).ProcessRequest("test", "title");
 				} catch (Exception ex) {
-					response.Body = ex.GetBaseException().ToString();
+					response.Body = ex.StackTrace;
 					response.StatusCode = 500;
 					return response;
 				}

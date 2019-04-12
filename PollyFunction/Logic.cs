@@ -23,7 +23,9 @@ namespace My.MySampleModule.PollyFunction {
 
 		public async Task ProcessRequest(string content, string title) {
 			var pollyRequest = new SynthesizeSpeechRequest {
-				Text = content
+				Text = content,
+				OutputFormat = OutputFormat.Mp3,
+				VoiceId = VoiceId.Amy
 			};
 			var pollyResponse = await _polly.SynthesizeSpeechAsync(pollyRequest);
 			if (pollyResponse == null

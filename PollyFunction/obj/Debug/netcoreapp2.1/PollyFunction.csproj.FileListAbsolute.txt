@@ -19,3 +19,4 @@ C:\Dev\Polly-Challenge\PollyFunction\obj\Debug\netcoreapp2.1\PollyFunction.Assem
 C:\Dev\Polly-Challenge\PollyFunction\obj\Debug\netcoreapp2.1\PollyFunction.AssemblyInfo.cs
 C:\Dev\Polly-Challenge\PollyFunction\obj\Debug\netcoreapp2.1\PollyFunction.dll
 C:\Dev\Polly-Challenge\PollyFunction\obj\Debug\netcoreapp2.1\PollyFunction.pdb
+C:\Dev\Polly-Challenge\PollyFunction\obj\Debug\netcoreapp2.1\PollyFunction.csprojAssemblyReference.cache
