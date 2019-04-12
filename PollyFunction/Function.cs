@@ -18,8 +18,10 @@ namespace My.MySampleModule.PollyFunction {
 
 		//--- Methods ---
 		public override Task InitializeAsync(LambdaConfig config) {
+			
 			Polly = new AmazonPollyClient();
 			S3 = new AmazonS3Client();
+			Bucket = config.ReadS3BucketName("ArticlesBucket");
 			return Task.CompletedTask;
 		}
 

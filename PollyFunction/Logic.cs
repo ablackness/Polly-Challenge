@@ -46,6 +46,7 @@ namespace My.MySampleModule.PollyFunction {
 		}
 
 		public async Task<AddItemResponse> AddItem(AddItemRequest request) {
+			Console.Write("Content: "+ request.Content);
 			await ProcessRequest(request.Content, request.Title);
 			return new AddItemResponse {
 				Id = "Ok"
