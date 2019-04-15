@@ -64,7 +64,7 @@
     "DeploymentChecksum": {
       "Type": "String",
       "Description": "Deployment Checksum",
-      "Default": "D73466D0E334B8E7A5F86FEDBAA82257"
+      "Default": "510006C0296FFB47BE77BBC6B9B488EE"
     }
   },
   "Resources": {
@@ -79,7 +79,7 @@
           "S3Bucket": {
             "Ref": "DeploymentBucketName"
           },
-          "S3Key": "LambdaSharpChallenge/Modules/PollyToS3Module/Assets/function_PollyFunction_4AA5CC51FE96886BAA6C03E58E2D7173.zip"
+          "S3Key": "LambdaSharpChallenge/Modules/PollyToS3Module/Assets/function_PollyFunction_2C984A20A8ED51E1A50E7F18FF63EAE9.zip"
         },
         "DeadLetterConfig": {
           "TargetArn": {
@@ -1107,13 +1107,13 @@
         }
       ],
       "RuntimeCheck": true,
-      "Hash": "D73466D0E334B8E7A5F86FEDBAA82257",
+      "Hash": "510006C0296FFB47BE77BBC6B9B488EE",
       "Git": {
         "Branch": "master",
-        "SHA": "b688ef606abcfb01f999105fe671579498ada220"
+        "SHA": "9746f17fbfed4c00848d64538314fddcdb15f750"
       },
       "Assets": [
-        "function_PollyFunction_4AA5CC51FE96886BAA6C03E58E2D7173.zip"
+        "function_PollyFunction_2C984A20A8ED51E1A50E7F18FF63EAE9.zip"
       ],
       "Dependencies": [
         {

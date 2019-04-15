@@ -4,6 +4,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Newtonsoft.Json;
 using System;
+using System.IO;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -55,8 +56,9 @@ namespace My.MySampleModule.PollyFunction {
 
 		public async Task ProcessRequest(string content, string title) {
 			var pollyRequest = new SynthesizeSpeechRequest {
-				Text = content,
 				OutputFormat = OutputFormat.Mp3,
+				Text = content,
+				TextType = "text",
 				VoiceId = VoiceId.Amy
 			};
 
@@ -65,11 +67,12 @@ namespace My.MySampleModule.PollyFunction {
 				|| pollyResponse.HttpStatusCode != (HttpStatusCode)200) {
 				throw new Exception("Text could not be converted to audio.");
 			}
-			pollyResponse.AudioStream.Position = 0;
+			var memoryStream = new MemoryStream();
+			pollyResponse.AudioStream.CopyTo(memoryStream);
 			var s3Response = await _provider.S3.PutObjectAsync(new PutObjectRequest {
 				BucketName = _provider.Bucket,
-				Key = title,
-				InputStream = pollyResponse.AudioStream
+				Key = $"{title}.mp3",
+				InputStream = memoryStream
 			});
 			if (s3Response == null
 				|| s3Response.HttpStatusCode != (HttpStatusCode)200) {
