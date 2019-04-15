@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.1",
-    "signature": "b9e33c2f6797e07547a15b5329b039a33c4a0e06"
+    "signature": "1f16f0f140ed320949c2032f6e854b28b4512835"
   },
   "compilationOptions": {},
   "targets": {
@@ -22,15 +22,12 @@
           "test.dll": {}
         }
       },
-      "Amazon.Lambda.APIGatewayEvents/1.1.3": {
+      "Amazon.Lambda.APIGatewayEvents/1.2.0": {
         "dependencies": {
-          "Newtonsoft.Json": "9.0.1",
-          "System.Collections": "4.3.0",
-          "System.Runtime": "4.3.0",
-          "System.Runtime.Serialization.Primitives": "4.1.1"
+          "Newtonsoft.Json": "9.0.1"
         },
         "runtime": {
-          "lib/netstandard1.3/Amazon.Lambda.APIGatewayEvents.dll": {
+          "lib/netstandard2.0/Amazon.Lambda.APIGatewayEvents.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.1.3.0"
           }
@@ -64,6 +61,25 @@
           "lib/netstandard1.3/Amazon.Lambda.SNSEvents.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "Amazon.Lambda.SQSEvents/1.1.0": {
+        "runtime": {
+          "lib/netstandard2.0/Amazon.Lambda.SQSEvents.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "AWSSDK.ApiGatewayManagementApi/3.3.1.3": {
+        "dependencies": {
+          "AWSSDK.Core": "3.3.100.5"
+        },
+        "runtime": {
+          "lib/netstandard1.3/AWSSDK.ApiGatewayManagementApi.dll": {
+            "assemblyVersion": "3.3.0.0",
+            "fileVersion": "3.3.1.3"
           }
         }
       },
@@ -187,21 +203,23 @@
           }
         }
       },
-      "LambdaSharp/0.5.0": {
+      "LambdaSharp/0.6.0-RC1": {
         "dependencies": {
+          "AWSSDK.ApiGatewayManagementApi": "3.3.1.3",
           "AWSSDK.KeyManagementService": "3.3.7.16",
           "AWSSDK.SQS": "3.3.3.54",
           "AWSXRayRecorder.Core": "2.5.0",
           "AWSXRayRecorder.Handlers.AwsSdk": "2.5.0",
-          "Amazon.Lambda.APIGatewayEvents": "1.1.3",
+          "Amazon.Lambda.APIGatewayEvents": "1.2.0",
           "Amazon.Lambda.Core": "1.1.0",
           "Amazon.Lambda.SNSEvents": "1.0.0",
+          "Amazon.Lambda.SQSEvents": "1.1.0",
           "Amazon.Lambda.Serialization.Json": "1.5.0"
         },
         "runtime": {
           "lib/netcoreapp2.1/LambdaSharp.dll": {
-            "assemblyVersion": "0.5.0.0",
-            "fileVersion": "0.5.0.0"
+            "assemblyVersion": "0.6.0.0",
+            "fileVersion": "0.6.0.0"
           }
         }
       },
@@ -1795,7 +1813,7 @@
           "AWSSDK.S3": "3.3.101.3",
           "Amazon.Lambda.Core": "1.1.0",
           "Amazon.Lambda.Serialization.Json": "1.5.0",
-          "LambdaSharp": "0.5.0",
+          "LambdaSharp": "0.6.0-RC1",
           "Microsoft.NET.Test.Sdk": "16.0.1",
           "Moq": "4.10.1",
           "xunit": "2.4.1",
@@ -1816,12 +1834,12 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Amazon.Lambda.APIGatewayEvents/1.1.3": {
+    "Amazon.Lambda.APIGatewayEvents/1.2.0": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-jNZomsksGKZ9R910IlLfxtF6vcpj7EI8Y1vuy++jJxzDIuO52ive1KLfdBtcccGKFUukDjUbQEiLQJoKPWJJDg==",
-      "path": "amazon.lambda.apigatewayevents/1.1.3",
-      "hashPath": "amazon.lambda.apigatewayevents.1.1.3.nupkg.sha512"
+      "sha512": "sha512-9yrwPuA1RNhwpNBEgHaohcrE0P+TqRDf2CUb/goLJLAEpxOXBSxPOH0EYCDhIdnrrpkGMgm5SDXK3YYufnHP4A==",
+      "path": "amazon.lambda.apigatewayevents/1.2.0",
+      "hashPath": "amazon.lambda.apigatewayevents.1.2.0.nupkg.sha512"
     },
     "Amazon.Lambda.Core/1.1.0": {
       "type": "package",
@@ -1843,6 +1861,20 @@
       "sha512": "sha512-zS3g9A6nTcucEKBwQgkhucveZ7xWddAa10y96CQZSPHq7NhvzdAt0S4vF4bqc2MZaTiu9ulEVsLDGRbP0fA24A==",
       "path": "amazon.lambda.snsevents/1.0.0",
       "hashPath": "amazon.lambda.snsevents.1.0.0.nupkg.sha512"
+    },
+    "Amazon.Lambda.SQSEvents/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-AD6rELASxItdSSR1Vj7X7pEE8OeGIADJkYer9dvHtXP+2NhpgFheBKj9mNt7fOEBuZLHo058TY416E9fnHRd6Q==",
+      "path": "amazon.lambda.sqsevents/1.1.0",
+      "hashPath": "amazon.lambda.sqsevents.1.1.0.nupkg.sha512"
+    },
+    "AWSSDK.ApiGatewayManagementApi/3.3.1.3": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yB7MVF7dL9/atZOTZLc9xX16A2nHxviXWwxf4jAYWE1SSkBnprmLImvqwFcFyVOjyJArbNtQNFjJcRhk17q2VQ==",
+      "path": "awssdk.apigatewaymanagementapi/3.3.1.3",
+      "hashPath": "awssdk.apigatewaymanagementapi.3.3.1.3.nupkg.sha512"
     },
     "AWSSDK.Core/3.3.100.5": {
       "type": "package",
@@ -1914,12 +1946,12 @@
       "path": "castle.core/4.3.1",
       "hashPath": "castle.core.4.3.1.nupkg.sha512"
     },
-    "LambdaSharp/0.5.0": {
+    "LambdaSharp/0.6.0-RC1": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-WSFPSCPe5G50e15t0GldNuCKjaQSaMpGkz3sNqsyBj9pt6mCs7e8O6VoDYgwHU9LTmHY5ElrtL5JWIG2Kd5rrQ==",
-      "path": "lambdasharp/0.5.0",
-      "hashPath": "lambdasharp.0.5.0.nupkg.sha512"
+      "sha512": "sha512-OCLf56ZKKf4wKbixO4SEtlJpyTT9UdHWNqk+geE9b5VSDmjA+m9+klyQgUXfI/TK1GL3nGg1hM9h6Ssv4UCsNA==",
+      "path": "lambdasharp/0.6.0-rc1",
+      "hashPath": "lambdasharp.0.6.0-rc1.nupkg.sha512"
     },
     "Microsoft.AspNetCore.Http/2.0.0": {
       "type": "package",

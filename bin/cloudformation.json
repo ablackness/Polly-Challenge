@@ -64,7 +64,7 @@
     "DeploymentChecksum": {
       "Type": "String",
       "Description": "Deployment Checksum",
-      "Default": "510006C0296FFB47BE77BBC6B9B488EE"
+      "Default": "097CC571AE44B3B244FE96661E58742F"
     }
   },
   "Resources": {
@@ -79,7 +79,7 @@
           "S3Bucket": {
             "Ref": "DeploymentBucketName"
           },
-          "S3Key": "LambdaSharpChallenge/Modules/PollyToS3Module/Assets/function_PollyFunction_2C984A20A8ED51E1A50E7F18FF63EAE9.zip"
+          "S3Key": "LambdaSharpChallenge/Modules/PollyToS3Module/Assets/function_PollyFunction_4C8C3509E3D81F4E07A650562AD42552.zip"
         },
         "DeadLetterConfig": {
           "TargetArn": {
@@ -655,7 +655,7 @@
         },
         "Schema": {
           "$schema": "http://json-schema.org/draft-04/schema#",
-          "title": "AddItemRequest",
+          "title": "ConvertTextRequest",
           "type": "object",
           "required": [
             "Content",
@@ -682,13 +682,13 @@
         },
         "Schema": {
           "$schema": "http://json-schema.org/draft-04/schema#",
-          "title": "AddItemResponse",
+          "title": "ConvertTextResponse",
           "type": "object",
           "required": [
-            "Id"
+            "FileName"
           ],
           "properties": {
-            "Id": {
+            "FileName": {
               "type": "string"
             }
           }
@@ -788,11 +788,11 @@
         "ModuleRestApiLogGroup"
       ]
     },
-    "ModuleRestApiDeployment3E22C059DC24DB5FD05CDFB88DFC768C": {
+    "ModuleRestApiDeploymentCFE3BA114B2D2465D615DB3DA773B6D4": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "Description": {
-          "Fn::Sub": "${AWS::StackName} API [3E22C059DC24DB5FD05CDFB88DFC768C]"
+          "Fn::Sub": "${AWS::StackName} API [CFE3BA114B2D2465D615DB3DA773B6D4]"
         },
         "RestApiId": {
           "Ref": "ModuleRestApi"
@@ -808,7 +808,7 @@
       "Type": "AWS::ApiGateway::Stage",
       "Properties": {
         "DeploymentId": {
-          "Ref": "ModuleRestApiDeployment3E22C059DC24DB5FD05CDFB88DFC768C"
+          "Ref": "ModuleRestApiDeploymentCFE3BA114B2D2465D615DB3DA773B6D4"
         },
         "MethodSettings": [
           {
@@ -1107,13 +1107,13 @@
         }
       ],
       "RuntimeCheck": true,
-      "Hash": "510006C0296FFB47BE77BBC6B9B488EE",
+      "Hash": "097CC571AE44B3B244FE96661E58742F",
       "Git": {
         "Branch": "master",
-        "SHA": "9746f17fbfed4c00848d64538314fddcdb15f750"
+        "SHA": "4407594a1fdccebf528c2cbcfb5cb7cfeb6fbf30"
       },
       "Assets": [
-        "function_PollyFunction_2C984A20A8ED51E1A50E7F18FF63EAE9.zip"
+        "function_PollyFunction_4C8C3509E3D81F4E07A650562AD42552.zip"
       ],
       "Dependencies": [
         {
@@ -1137,7 +1137,7 @@
         "ModuleRestApiRole": "Module::RestApi::Role",
         "ModuleRestApiLogGroup": "Module::RestApi::LogGroup",
         "ModuleRestApiAccount": "Module::RestApi::Account",
-        "ModuleRestApiDeployment3E22C059DC24DB5FD05CDFB88DFC768C": "Module::RestApi::Deployment3E22C059DC24DB5FD05CDFB88DFC768C",
+        "ModuleRestApiDeploymentCFE3BA114B2D2465D615DB3DA773B6D4": "Module::RestApi::DeploymentCFE3BA114B2D2465D615DB3DA773B6D4",
         "ModuleRestApiStage": "Module::RestApi::Stage"
       },
       "TypeNameMappings": {

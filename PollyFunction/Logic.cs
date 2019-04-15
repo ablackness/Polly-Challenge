@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using System;
 using System.IO;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace My.MySampleModule.PollyFunction {
@@ -19,7 +20,7 @@ namespace My.MySampleModule.PollyFunction {
 		Exception AbortNotFound(string message);
 	}
 
-	public class AddItemRequest {
+	public class ConvertTextRequest {
 
 		//--- Properties ---
 		[JsonRequired]
@@ -29,11 +30,11 @@ namespace My.MySampleModule.PollyFunction {
 		public string Title { get; set; }
 	}
 
-	public class AddItemResponse {
+	public class ConvertTextResponse {
 
 		//--- Properties ---
 		[JsonRequired]
-		public string Id { get; set; }
+		public string FileName { get; set; }
 	}
 
 	public class Logic {
@@ -46,18 +47,10 @@ namespace My.MySampleModule.PollyFunction {
 			_provider = provider ?? throw new ArgumentNullException(nameof(provider));
 		}
 
-		public async Task<AddItemResponse> AddItem(AddItemRequest request) {
-			Console.Write("Content: "+ request.Content);
-			await ProcessRequest(request.Content, request.Title);
-			return new AddItemResponse {
-				Id = "Ok"
-			};
-		}
-
-		public async Task ProcessRequest(string content, string title) {
+		public async Task<ConvertTextResponse> AddItem(ConvertTextRequest request) {
 			var pollyRequest = new SynthesizeSpeechRequest {
 				OutputFormat = OutputFormat.Mp3,
-				Text = content,
+				Text = request.Content,
 				TextType = "text",
 				VoiceId = VoiceId.Amy
 			};
@@ -69,15 +62,19 @@ namespace My.MySampleModule.PollyFunction {
 			}
 			var memoryStream = new MemoryStream();
 			pollyResponse.AudioStream.CopyTo(memoryStream);
+			var simpleTitle = Regex.Replace(request.Title, "[^A-Za-z0-9]+", "") + ".mp3";
 			var s3Response = await _provider.S3.PutObjectAsync(new PutObjectRequest {
 				BucketName = _provider.Bucket,
-				Key = $"{title}.mp3",
+				Key = simpleTitle,
 				InputStream = memoryStream
 			});
 			if (s3Response == null
 				|| s3Response.HttpStatusCode != (HttpStatusCode)200) {
 				throw new Exception("Unable to save audio file to s3");
 			}
+			return new ConvertTextResponse {
+				FileName = simpleTitle
+			};
 		}
 	}
 }

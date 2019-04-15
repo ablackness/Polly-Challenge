@@ -20,6 +20,9 @@ The following tools and accounts are required to complete these instructions.
 - Clone this repo.
 - `lash deploy --tier Challenge`. This will build and deploy your lambda function.
 
-Test it by getting the API Gateway unique url: `curl -d '{"Content": "test", "Title": "test_1"}' -H "Content-Type: application/json" -X POST https:/REPLACEME.execute-api.us-east-1.amazonaws.com/LATEST/articles`
+Test it by getting the API Gateway unique url in the lambda function: `curl -d '{"Content": "test", "Title": "test_1"}' -H "Content-Type: application/json" -X POST https:/REPLACEME.execute-api.us-east-1.amazonaws.com/LATEST/articles`
 
 ## Level 1
+
+Make the S3 public defined in `Module.yml` public so you can get your mp3s anywhere.
+See this example: https://github.com/LambdaSharp/StaticWebsite-Sample
