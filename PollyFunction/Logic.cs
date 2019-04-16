@@ -27,7 +27,7 @@ namespace My.MySampleModule.PollyFunction {
 		public string Content { get; set; }
 
 		[JsonRequired]
-		public string Title { get; set; }
+		public string FileName { get; set; }
 	}
 
 	public class ConvertTextResponse {
@@ -49,10 +49,10 @@ namespace My.MySampleModule.PollyFunction {
 
 		public async Task<ConvertTextResponse> AddItem(ConvertTextRequest request) {
 			var pollyRequest = new SynthesizeSpeechRequest {
-				OutputFormat = OutputFormat.Mp3,
+				OutputFormat = OutputFormat.Json,
 				Text = request.Content,
 				TextType = "text",
-				VoiceId = VoiceId.Amy
+				VoiceId = VoiceId.Amy 
 			};
 
 			var pollyResponse = await _provider.Polly.SynthesizeSpeechAsync(pollyRequest);
@@ -62,18 +62,19 @@ namespace My.MySampleModule.PollyFunction {
 			}
 			var memoryStream = new MemoryStream();
 			pollyResponse.AudioStream.CopyTo(memoryStream);
-			var simpleTitle = Regex.Replace(request.Title, "[^A-Za-z0-9]+", "") + ".mp3";
 			var s3Response = await _provider.S3.PutObjectAsync(new PutObjectRequest {
 				BucketName = _provider.Bucket,
-				Key = simpleTitle,
+				Key = request.FileName,
 				InputStream = memoryStream
 			});
 			if (s3Response == null
 				|| s3Response.HttpStatusCode != (HttpStatusCode)200) {
 				throw new Exception("Unable to save audio file to s3");
 			}
+
+			// TODO LVL2 SNS Topic would be nice here
 			return new ConvertTextResponse {
-				FileName = simpleTitle
+				FileName = request.FileName
 			};
 		}
 	}

@@ -25,7 +25,7 @@ namespace My.MySampleModule.PollyFunction.Test {
 			});
 
 			//act
-			await mock.Logic.AddItem(new ConvertTextRequest(){ Content = "foo bar", Title = "baz" });
+			await mock.Logic.AddItem(new ConvertTextRequest(){ Content = "foo bar", FileName = "baz" });
 
 			//assert
 			mock.PollyMock.VerifyAll();
