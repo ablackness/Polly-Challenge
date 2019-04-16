@@ -82,6 +82,8 @@ NOTE: This should not require any text translation.
 
 ## Boss
 
+![Flow](thanos.jpg)
+
 We want to be able to listen to the audio in the language of our choice. Use Amazon Transcribe to translate the text into another language before sending it to Polly.
 
 <details><summary>Hint 1</summary>
