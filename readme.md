@@ -43,19 +43,20 @@ We don't want to expend processing power on duplicate files! If the content of t
 
 Let's be notified when the audio file is ready. Send an SMS/Email using an SNS topic. Add a link to the mp3 in the SNS notification.
 
+
+Docs: [Amazon SNS Publish](https://docs.aws.amazon.com/sdkfornet/v3/apidocs/index.html?page=SNS/MSNSPublishAsyncStringStringCancellationToken.html&tocid=Amazon_SimpleNotificationService_Amaz)
+
 <details><summary>Hint 1</summary>
-
-[Amazon SNS Publish](https://docs.aws.amazon.com/sdkfornet/v3/apidocs/index.html?page=SNS/MSNSPublishAsyncStringStringCancellationToken.html&tocid=Amazon_SimpleNotificationService_Amaz)
-
+Create a SNS topic in <code>Module.yml</code> using <code>lash new resource ArticleAudioDone AWS::SNS::Topic</code>
 </details>
 
 <details><summary>Hint 2</summary>
-Create a SNS topic in `Module.yml` using `lash new resource ArticleAudioDone AWS::SNS::Topic`
+<a>https://github.com/LambdaSharp/LambdaSharpTool/blob/master/Demos/TwitterNotifier/NotifyFunction/Function.cs#L73</a>
 </details>
 
 ## Level 3
 
-We want to poll an article list with title and description every 5 minutes from an RSS feed. Typically this would be done every day but for the purposes of this challenge, 5 minute intervals will work. Save the audio file in the following format `YYMMDDHHMMSS.mp3`
+We want to poll an article list with title and description every 5 minutes from an RSS feed. Typically this would be done every day but for the purposes of this challenge, 5 minute intervals will work. Save the audio file in the following format `{timestamp}.mp3`
 
 Example RSS Feed 1: https://hnrss.org/newest
 
@@ -68,7 +69,7 @@ https://docs.aws.amazon.com/lambda/latest/dg/tutorial-scheduled-events-schedule-
 https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/RunLambdaSchedule.html
 
 <details><summary>Not hard enough for you?</summary>
-Parse the article's html into plain text then convert it to an mp3.  This could be in the field: `content:encoded`
+Parse the article's html into plain text then convert it to an mp3.  This could be in the field: <code>content:encoded</code>
 </details>
 
 ## Level 4
@@ -88,7 +89,7 @@ NOTE: This should not require any text translation.
 We want to be able to listen to the audio in the language of our choice. Use Amazon Transcribe to translate the text into another language before sending it to Polly.
 
 <details><summary>Hint 1</summary>
-Polly and Transcribe are similar services. Use the existing definitions in the `Module.yml` for ideas.
+Polly and Transcribe are similar services. Use the existing definitions in the <code>Module.yml</code> for ideas.
 </details>
 
 <details><summary>Hint 2</summary>

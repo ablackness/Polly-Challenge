@@ -2,6 +2,7 @@ using Amazon.Polly;
 using Amazon.Polly.Model;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Amazon.SimpleNotificationService;
 using Newtonsoft.Json;
 using System;
 using System.IO;
@@ -14,6 +15,7 @@ namespace LambdaSharpChallenge.PollyToS3Module {
 	public interface ILogicDependencyProvider {
 		IAmazonPolly Polly { get; set; }
 		IAmazonS3 S3 { get; set; }
+		// TODO Level 2 Add SNS Client
 		string Bucket { get; set; }
 
 		//--- Methods ---
