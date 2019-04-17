@@ -3,7 +3,7 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <Deterministic>true</Deterministic>
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
-    <RootNamespace>My.MySampleModule.PollyFunction</RootNamespace>
+    <RootNamespace>LambdaSharpChallenge.PollyToS3Module</RootNamespace>
     <AWSProjectType>Lambda</AWSProjectType>
     <NoWarn>CS1998, NU1604, NU1701</NoWarn>
     <IsTestProject>true</IsTestProject>

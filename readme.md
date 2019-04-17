@@ -13,15 +13,16 @@ In this challenge, we'll be exploring Amazon Polly to convert text to audio.
 
 The following tools and accounts are required to complete these instructions.
 
+- [Install .NET Core 2.2](https://www.microsoft.com/net/download)
+- [LambdaSharp Tool](https://github.com/LambdaSharp/LambdaSharpTool) - This is important! `dotnet tool install --global LambdaSharp.Tool --version 0.6.0-RC1`
 - [AWS Account](https://aws.amazon.com/)
 - [GitHub Account](https://github.com/)
 - [Install AWS CLI](https://aws.amazon.com/cli/)
-- [Install .NET Core 2.2](https://www.microsoft.com/net/download)
-- [LambdaSharp Tool](https://github.com/LambdaSharp/LambdaSharpTool) - This is important! `dotnet tool install --global LambdaSharp.Tool --version 0.6.0-RC1`
 
 ## Level 0
 
 - Clone this repo.
+- `lash config` if you haven't used the LambdaSharp tool before.
 - `lash deploy --tier Challenge`. This will build and deploy your lambda function.
 - Get the API Gateway url from the lambda function created by Lambda#.
 - Test the API Gateway endpoint like this: `curl -d '{"Content": "Hello world! This is some test content.", "FileName": "test.mp3"}' -H "Content-Type: application/json" -X POST https:/REPLACEME.execute-api.us-east-1.amazonaws.com/LATEST/articles` Works with Git Bash and *Nix

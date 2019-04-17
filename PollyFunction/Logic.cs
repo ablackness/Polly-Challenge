@@ -9,7 +9,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace My.MySampleModule.PollyFunction {
+namespace LambdaSharpChallenge.PollyToS3Module {
 
 	public interface ILogicDependencyProvider {
 		IAmazonPolly Polly { get; set; }
@@ -49,7 +49,7 @@ namespace My.MySampleModule.PollyFunction {
 
 		public async Task<ConvertTextResponse> AddItem(ConvertTextRequest request) {
 			var pollyRequest = new SynthesizeSpeechRequest {
-				OutputFormat = OutputFormat.Json,
+				OutputFormat = OutputFormat.Mp3,
 				Text = request.Content,
 				TextType = "text",
 				VoiceId = VoiceId.Amy 

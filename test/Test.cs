@@ -2,6 +2,7 @@ using Amazon.Polly;
 using Amazon.Polly.Model;
 using Amazon.S3;
 using Amazon.S3.Model;
+using LambdaSharpChallenge.PollyToS3Module;
 using Moq;
 using System.Net;
 using System.Threading;
