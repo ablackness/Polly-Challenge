@@ -24,6 +24,7 @@ The following tools and accounts are required to complete these instructions.
 - Clone this repo.
 - `lash config` if you haven't used the LambdaSharp tool before.
 - `lash deploy --tier Challenge`. This will build and deploy your lambda function.
+(For Mac Users, you may have add the lash tool to your path. You can add this to your bash profile `export PATH="$PATH:$HOME/.dotnet/tools"`)
 - Get the API Gateway url from the lambda function created by Lambda#.
 - Test the API Gateway endpoint like this: `curl -d '{"Content": "Hello world! This is some test content.", "FileName": "test.mp3"}' -H "Content-Type: application/json" -X POST https:/REPLACEME.execute-api.us-east-1.amazonaws.com/LATEST/articles` Works with Git Bash and *Nix
 
@@ -51,16 +52,34 @@ Create a SNS topic in <code>Module.yml</code> using <code>lash new resource Arti
 </details>
 
 <details><summary>Hint 2</summary>
-<a>https://github.com/LambdaSharp/LambdaSharpTool/blob/master/Demos/TwitterNotifier/NotifyFunction/Function.cs#L73</a>
+<a href=https://github.com/LambdaSharp/LambdaSharpTool/blob/master/Demos/TwitterNotifier/NotifyFunction/Function.cs#L73>Twitter Notify Demo</a>
 </details>
 
 ## Level 3
 
-We want to poll an article list with title and description every 5 minutes from an RSS feed. Typically this would be done every day but for the purposes of this challenge, 5 minute intervals will work. Save the audio file in the following format `{timestamp}.mp3`
+We want the user to be able to choose a language and get audio based on that selection.
+
+Use Amazon Polly's built in localization methods to describe the voices available for that language code. 
+
+Pick a voice from that list and use it to synthesize the text to speech in the chosen language.
+
+Submit the chosen voice in the API request.
+
+NOTE: This should not require any text translation
+
+[Docs] https://docs.aws.amazon.com/sdkfornet/v3/apidocs/index.html?page=Polly/MPollyDescribeVoicesDescribeVoicesRequest.html&tocid=Amazon_Polly_AmazonPollyClient
+
+[Language_Codes] https://docs.aws.amazon.com/polly/latest/dg/SupportedLanguage.html
+
+## Level 4
+
+We want to poll an article list with title and description every 5 minutes from an RSS feed. Typically this would be done every day but for the purposes of this challenge, 5 minute intervals will work. Save the audio file in the following format `{timestamp}.mp3`. Update your lambda function to handle triggers other than API Gateway
 
 Example RSS Feed 1: https://hnrss.org/newest
 
 Example RSS Feed 2: https://www.reddit.com/r/news/.rss
+
+Note: Some parsing will be required!
 
 Like JSON better? Check this out https://rss2json.com/#rss_url=https%3A%2F%2Ftechcrunch.com%2Ffeed%2F
 
@@ -68,19 +87,12 @@ Check out these docs for some details on scheduling with AWS
 https://docs.aws.amazon.com/lambda/latest/dg/tutorial-scheduled-events-schedule-expressions.html
 https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/RunLambdaSchedule.html
 
+<details><summary>Hint</summary>
+Make a post request to the API Gateway endpoint with the content from the RSS feed. You may need to create a new function for this logic.
+</details>
 <details><summary>Not hard enough for you?</summary>
 Parse the article's html into plain text then convert it to an mp3.  This could be in the field: <code>content:encoded</code>
 </details>
-
-## Level 4
-
-We want the user to be able to choose a language and get audio based on that selection. 
-
-Use Amazon Polly's built in localization methods to describe the voices available for that language code. 
-
-Pick a voice from that list and use it to synthesize the text to speech in the chosen language.
-
-NOTE: This should not require any text translation.
 
 ## Boss
 
