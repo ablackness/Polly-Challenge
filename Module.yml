@@ -47,6 +47,6 @@ Items:
     Properties:
       # Documentation: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
       Subscription:
-        - Endpoint: +15627062229
+        - Endpoint: 
           Protocol: SMS
       TopicName: AudioDone
