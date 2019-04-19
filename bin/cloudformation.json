@@ -64,7 +64,7 @@
     "DeploymentChecksum": {
       "Type": "String",
       "Description": "Deployment Checksum",
-      "Default": "097CC571AE44B3B244FE96661E58742F"
+      "Default": "49C9078D1A2696413B88CDB1B9BE4816"
     }
   },
   "Resources": {
@@ -79,7 +79,7 @@
           "S3Bucket": {
             "Ref": "DeploymentBucketName"
           },
-          "S3Key": "LambdaSharpChallenge/Modules/PollyToS3Module/Assets/function_PollyFunction_4C8C3509E3D81F4E07A650562AD42552.zip"
+          "S3Key": "LambdaSharpChallenge/Modules/PollyToS3Module/Assets/function_PollyFunction_0CA9AC514D44DA76F4D1A15B8C22132E.zip"
         },
         "DeadLetterConfig": {
           "TargetArn": {
@@ -188,10 +188,13 @@
                 "ArticlesBucket",
                 "Arn"
               ]
+            },
+            "STR_ARTICLEAUDIODONE": {
+              "Ref": "ArticleAudioDone"
             }
           }
         },
-        "Handler": "PollyFunction::My.MySampleModule.PollyFunction.Function::FunctionHandlerAsync",
+        "Handler": "PollyFunction::LambdaSharpChallenge.PollyToS3Module.Function::FunctionHandlerAsync",
         "MemorySize": "512",
         "Role": {
           "Fn::GetAtt": [
@@ -215,6 +218,41 @@
           "Fn::Sub": "/aws/lambda/${PollyFunction}"
         },
         "RetentionInDays": 30
+      }
+    },
+    "ArticleBucketPolicy": {
+      "Type": "AWS::S3::BucketPolicy",
+      "Properties": {
+        "Bucket": {
+          "Ref": "ArticlesBucket"
+        },
+        "PolicyDocument": {
+          "Id": "ArticlesBucket",
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Sid": "PublicReadForGetBucketObjects",
+              "Effect": "Allow",
+              "Principal": "*",
+              "Action": "s3:GetObject",
+              "Resource": {
+                "Fn::Sub": "${ArticlesBucket.Arn}/*"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "ArticleAudioDone": {
+      "Type": "AWS::SNS::Topic",
+      "Properties": {
+        "Subscription": [
+          {
+            "Endpoint": "+15627062229",
+            "Protocol": "SMS"
+          }
+        ],
+        "TopicName": "AudioDone"
       }
     },
     "ModuleRole": {
@@ -298,6 +336,16 @@
                       ]
                     }
                   ]
+                },
+                {
+                  "Sid": "ArticleAudioDone",
+                  "Effect": "Allow",
+                  "Action": [
+                    "sns:Publish"
+                  ],
+                  "Resource": {
+                    "Ref": "ArticleAudioDone"
+                  }
                 },
                 {
                   "Sid": "ModuleDeadLetterQueueLogging",
@@ -658,14 +706,14 @@
           "title": "ConvertTextRequest",
           "type": "object",
           "required": [
-            "Content",
-            "Title"
+            "Language",
+            "Uri"
           ],
           "properties": {
-            "Content": {
+            "Language": {
               "type": "string"
             },
-            "Title": {
+            "Uri": {
               "type": "string"
             }
           }
@@ -685,10 +733,14 @@
           "title": "ConvertTextResponse",
           "type": "object",
           "required": [
-            "FileName"
+            "FileName",
+            "Voice"
           ],
           "properties": {
             "FileName": {
+              "type": "string"
+            },
+            "Voice": {
               "type": "string"
             }
           }
@@ -788,11 +840,11 @@
         "ModuleRestApiLogGroup"
       ]
     },
-    "ModuleRestApiDeploymentCFE3BA114B2D2465D615DB3DA773B6D4": {
+    "ModuleRestApiDeployment4BD898C8367C83A2490E1C0D5FB300C4": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "Description": {
-          "Fn::Sub": "${AWS::StackName} API [CFE3BA114B2D2465D615DB3DA773B6D4]"
+          "Fn::Sub": "${AWS::StackName} API [4BD898C8367C83A2490E1C0D5FB300C4]"
         },
         "RestApiId": {
           "Ref": "ModuleRestApi"
@@ -808,7 +860,7 @@
       "Type": "AWS::ApiGateway::Stage",
       "Properties": {
         "DeploymentId": {
-          "Ref": "ModuleRestApiDeploymentCFE3BA114B2D2465D615DB3DA773B6D4"
+          "Ref": "ModuleRestApiDeployment4BD898C8367C83A2490E1C0D5FB300C4"
         },
         "MethodSettings": [
           {
@@ -1107,13 +1159,13 @@
         }
       ],
       "RuntimeCheck": true,
-      "Hash": "097CC571AE44B3B244FE96661E58742F",
+      "Hash": "49C9078D1A2696413B88CDB1B9BE4816",
       "Git": {
         "Branch": "master",
-        "SHA": "4407594a1fdccebf528c2cbcfb5cb7cfeb6fbf30"
+        "SHA": "45731e87e40bd8d4ebb6908e768f6a4addfb3523"
       },
       "Assets": [
-        "function_PollyFunction_4C8C3509E3D81F4E07A650562AD42552.zip"
+        "function_PollyFunction_0CA9AC514D44DA76F4D1A15B8C22132E.zip"
       ],
       "Dependencies": [
         {
@@ -1137,7 +1189,7 @@
         "ModuleRestApiRole": "Module::RestApi::Role",
         "ModuleRestApiLogGroup": "Module::RestApi::LogGroup",
         "ModuleRestApiAccount": "Module::RestApi::Account",
-        "ModuleRestApiDeploymentCFE3BA114B2D2465D615DB3DA773B6D4": "Module::RestApi::DeploymentCFE3BA114B2D2465D615DB3DA773B6D4",
+        "ModuleRestApiDeployment4BD898C8367C83A2490E1C0D5FB300C4": "Module::RestApi::Deployment4BD898C8367C83A2490E1C0D5FB300C4",
         "ModuleRestApiStage": "Module::RestApi::Stage"
       },
       "TypeNameMappings": {

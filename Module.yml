@@ -22,3 +22,31 @@ Items:
     Sources:
       - Api: POST:/articles
         Invoke: Logic::AddItem
+
+  - Resource: ArticleBucketPolicy
+    Description: Public access policy for Articles bucket
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      # Documentation: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-s3-policy.html
+      Bucket: !Ref ArticlesBucket
+      PolicyDocument: 
+        Id: ArticlesBucket
+        Version: 2012-10-17
+        Statement:
+          - Sid: PublicReadForGetBucketObjects
+            Effect: Allow
+            Principal: '*'
+            Action: s3:GetObject
+            Resource: !Sub "${ArticlesBucket.Arn}/*"
+
+  - Resource: ArticleAudioDone
+    Description: Send message once audio is ready
+    Type: AWS::SNS::Topic
+    Allow: Publish
+    Scope: all
+    Properties:
+      # Documentation: http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-properties-sns-topic.html
+      Subscription:
+        - Endpoint: +15627062229
+          Protocol: SMS
+      TopicName: AudioDone
